@@ -3,6 +3,9 @@ package Erofeev.MusicStoreCWsem4.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "item")
@@ -30,4 +33,13 @@ public class Item {
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private ItemCategory category;
+
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> images;
+
+    public void addImage(ItemImage itemImage) {
+        if (images == null)
+            images = new LinkedList<>();
+        images.add(itemImage);
+    }
 }

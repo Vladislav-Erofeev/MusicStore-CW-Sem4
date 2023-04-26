@@ -1,15 +1,16 @@
 package Erofeev.MusicStoreCWsem4.controllers;
 
+import Erofeev.MusicStoreCWsem4.dto.ItemDTO;
 import Erofeev.MusicStoreCWsem4.dto.ListItemDTO;
 import Erofeev.MusicStoreCWsem4.dto.NewItemDTO;
+import Erofeev.MusicStoreCWsem4.errors.ErrorResponse;
+import Erofeev.MusicStoreCWsem4.errors.ItemNotFoundException;
 import Erofeev.MusicStoreCWsem4.services.ItemService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +27,19 @@ public class ItemController {
         return itemService.findAll(page, limit, category);
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public void addNewItem(@RequestBody NewItemDTO newItemDTO) {
         itemService.save(newItemDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ItemDTO findById(@PathVariable("id") long id) throws ItemNotFoundException {
+        return itemService.findById(id);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> itemNotFound(ItemNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
