@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MVCConfig implements WebMvcConfigurer {
 
-    private final String UPLOAD_DIRECTORY = "C:/images";
+    private final String UPLOAD_DIRECTORY = "C:/musicstore/images/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -22,27 +22,24 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ItemService {
     private final ItemRepository itemRepository;
-    private final ItemMapper itemMapper = ItemMapper.INSTANCE;
 
     @Transactional
-    public void save(NewItemDTO newItemDTO) {
-        itemRepository.save(itemMapper.convertNewItemDTOToItem(newItemDTO));
+    public long save(Item newItem) {
+        return itemRepository.save(newItem).getId();
     }
 
-    public List<ListItemDTO> findAll(int page, int limit, String category) {
-        if (category == "")
-            return itemRepository.findAll(PageRequest.of(page, limit)).stream()
-                    .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
+    public List<Item> findAll(int page, int limit, String category) {
+        if (category.isBlank())
+            return itemRepository.findAll(PageRequest.of(page, limit)).getContent();
         ItemCategory category1 = Enum.valueOf(ItemCategory.class, category);
-        return itemRepository.findByCategory(category1, PageRequest.of(page, limit)).stream()
-                .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
+        return itemRepository.findByCategory(category1, PageRequest.of(page, limit));
     }
 
-    public ItemDTO findById(long id) throws ItemNotFoundException {
+    public Item findById(long id) throws ItemNotFoundException {
         Optional<Item> optionalItem = itemRepository.findById(id);
         if (optionalItem.isEmpty())
             throw new ItemNotFoundException("Item with id = " + id + " not found");
-        return itemMapper.convertItemToItemDTO(itemRepository.findById(id).get());
+        return optionalItem.get();
     }
 
 }

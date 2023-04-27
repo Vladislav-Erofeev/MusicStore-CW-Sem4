@@ -11,5 +11,6 @@ public class ListItemDTO {
     private int id;
     private String title;
     private String description;
+    private int count;
     private double price;
 }
