@@ -11,6 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class PersonController {
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
+    /**
+     * GET - "/profile"
+     * Получение информации о пользователе
+     * @return объект {
+     *     "name": имя,
+     *     "lastname": фамилия,
+     *     "phone": номер телефона,
+     *     "mail": почтовый адрес,
+     *     "city": город,
+     *     "url": фотография профиля
+     * }
+     */
     @GetMapping("/profile")
     public PersonDTO getPerson() {
         PersonDetails personDetails = (PersonDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

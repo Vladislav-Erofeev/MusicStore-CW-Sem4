@@ -14,11 +14,9 @@ import Erofeev.MusicStoreCWsem4.utils.ImageNameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,7 +54,7 @@ public class ItemController {
     }
 
     @PostMapping("/load_image/{id}")
-    public void loadImage(@PathVariable("id") long itemId,@RequestBody MultipartFile file)
+    public void loadImage(@PathVariable("id") long itemId, @RequestBody MultipartFile file)
             throws IOException, ItemNotFoundException {
         String imageName = nameService.generate(file.getContentType());
         Path filenameAndPath = Paths.get(UPLOAD_DIRECTORY + "/items", imageName);

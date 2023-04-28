@@ -8,8 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PersonDTO {
-    private long id;
-
     private String name;
 
     private String lastname;
@@ -18,11 +16,7 @@ public class PersonDTO {
 
     private String mail;
 
-    private String password;
-
     private String city;
 
     private String url;
-
-    private String role;
 }

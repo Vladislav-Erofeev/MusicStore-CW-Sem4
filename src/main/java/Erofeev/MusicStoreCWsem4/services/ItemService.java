@@ -1,12 +1,8 @@
 package Erofeev.MusicStoreCWsem4.services;
 
-import Erofeev.MusicStoreCWsem4.dto.ItemDTO;
-import Erofeev.MusicStoreCWsem4.dto.ListItemDTO;
-import Erofeev.MusicStoreCWsem4.dto.NewItemDTO;
 import Erofeev.MusicStoreCWsem4.entities.Item;
 import Erofeev.MusicStoreCWsem4.entities.ItemCategory;
 import Erofeev.MusicStoreCWsem4.errors.ItemNotFoundException;
-import Erofeev.MusicStoreCWsem4.mappers.ItemMapper;
 import Erofeev.MusicStoreCWsem4.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

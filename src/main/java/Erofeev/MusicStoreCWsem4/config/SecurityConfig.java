@@ -1,7 +1,6 @@
 package Erofeev.MusicStoreCWsem4.config;
 
 import Erofeev.MusicStoreCWsem4.security.JwtAuthenticationFilter;
-import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.net.http.HttpRequest;
 
 @Configuration
 @EnableWebSecurity
