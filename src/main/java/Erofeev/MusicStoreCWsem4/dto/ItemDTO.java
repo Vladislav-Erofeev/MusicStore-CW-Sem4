@@ -14,6 +14,7 @@ public class ItemDTO {
     private String title;
     private String description;
     private String body;
+    private int count;
     private double price;
     private String category;
     private List<ImageDTO> images;

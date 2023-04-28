@@ -4,13 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class ListItemDTO {
     private int id;
     private String title;
-    private String description;
     private int count;
     private double price;
+    private String category;
+    private List<ImageDTO> images;
 }
