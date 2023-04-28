@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -31,4 +34,13 @@ public class Person {
     private String url;
 
     private String role;
+
+    @ManyToMany(mappedBy = "personList")
+    private List<Item> cart;
+
+    public void addToCart(Item item) {
+        if (cart == null)
+            cart = new LinkedList<>();
+        cart.add(item);
+    }
 }

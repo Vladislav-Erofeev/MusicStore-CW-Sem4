@@ -30,9 +30,21 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<ItemImage> images;
 
+    @ManyToMany
+    @JoinTable(name = "cart",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id"))
+    List<Person> personList;
+
     public void addImage(ItemImage itemImage) {
         if (images == null)
             images = new LinkedList<>();
         images.add(itemImage);
+    }
+
+    public void addToCart(Person person) {
+        if (personList == null)
+            personList = new LinkedList<>();
+        personList.add(person);
     }
 }
