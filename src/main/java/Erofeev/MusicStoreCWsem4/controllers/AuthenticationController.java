@@ -6,24 +6,38 @@ import Erofeev.MusicStoreCWsem4.security.AuthenticationRequest;
 import Erofeev.MusicStoreCWsem4.security.AuthenticationService;
 import Erofeev.MusicStoreCWsem4.security.RegistrationRequest;
 import Erofeev.MusicStoreCWsem4.security.TokenResponse;
+import Erofeev.MusicStoreCWsem4.utils.ImageNameService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final ImageNameService nameService;
+    private final String UPLOAD_DIRECTORY = "C:/musicstore/images";
 
     @PostMapping("/register")
-    public TokenResponse register(@RequestBody RegistrationRequest registrationRequest) throws NotUniqueEmailException {
-        String token = authenticationService.register(registrationRequest);
+    public TokenResponse register(@RequestPart("request") RegistrationRequest registrationRequest,
+                                  @RequestPart(value = "file", required = false)MultipartFile file) throws NotUniqueEmailException, IOException {
+        String url = null;
+        if(file != null) {
+            String imageName = nameService.generate(file.getContentType());
+            Path filenameAndPath = Paths.get(UPLOAD_DIRECTORY + "/profile", imageName);
+            Files.write(filenameAndPath, file.getBytes());
+            url = "/profile/" + imageName;
+        }
+        String token = authenticationService.register(registrationRequest, url);
         return new TokenResponse(token);
     }
 
