@@ -9,6 +9,9 @@ import Erofeev.MusicStoreCWsem4.repositories.ItemRepository;
 import Erofeev.MusicStoreCWsem4.repositories.OrderRepository;
 import Erofeev.MusicStoreCWsem4.repositories.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +26,10 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository orderRepository;
-//    private final ItemRepository itemRepository;
     private final PersonRepository personRepository;
 
     public List<Order> getAll(long personId) {
-        return orderRepository.findByOwnerId(personId);
+        return orderRepository.findByOwnerId(personId, Sort.by("id").descending());
     }
 
     @Transactional
