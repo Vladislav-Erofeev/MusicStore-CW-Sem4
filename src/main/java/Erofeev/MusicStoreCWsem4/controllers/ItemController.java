@@ -42,6 +42,14 @@ public class ItemController {
                 .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/search")
+    public List<ListItemDTO> getSearchResult(@RequestParam(value = "page", defaultValue = "0") int page,
+                                             @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                             @RequestParam(value = "search", defaultValue = "") String search) {
+        return itemService.search(search, page, limit).stream()
+                .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Long> addNewItem(@RequestBody NewItemDTO newItemDTO) {
         long id = itemService.save(itemMapper.convertNewItemDTOToItem(newItemDTO));

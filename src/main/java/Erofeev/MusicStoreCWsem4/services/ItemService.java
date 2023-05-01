@@ -37,4 +37,8 @@ public class ItemService {
         return optionalItem.get();
     }
 
+    public List<Item> search(String search, int page, int limit) {
+        return itemRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, limit));
+    }
+
 }
