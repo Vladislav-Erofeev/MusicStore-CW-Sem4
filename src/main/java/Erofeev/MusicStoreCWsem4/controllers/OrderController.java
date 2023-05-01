@@ -1,5 +1,6 @@
 package Erofeev.MusicStoreCWsem4.controllers;
 
+import Erofeev.MusicStoreCWsem4.dto.NewOrderDTO;
 import Erofeev.MusicStoreCWsem4.dto.OrderDTO;
 import Erofeev.MusicStoreCWsem4.dto.OrderListItemDTO;
 import Erofeev.MusicStoreCWsem4.entities.Person;
@@ -30,9 +31,9 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public void createOrder(@RequestParam(name = "address") String address) throws PersonNotFoundException {
+    public void createOrder(@RequestBody NewOrderDTO newOrderDTO) throws PersonNotFoundException {
         Person person = authenticatedPersonService.getPerson();
-        orderService.createNewOrder(person.getId(), address);
+        orderService.createNewOrder(person.getId(), newOrderDTO.getAddress());
     }
 
     @GetMapping("/{id}")
