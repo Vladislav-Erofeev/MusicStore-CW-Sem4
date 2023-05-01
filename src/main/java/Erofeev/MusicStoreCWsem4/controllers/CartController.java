@@ -31,6 +31,14 @@ public class CartController {
                 .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
     }
 
+    @GetMapping("/in_cart/{id}")
+    public Boolean isItemInCart(@PathVariable("id") long itemId) {
+        Person person = authenticatedPersonService.getPerson();
+        if (cartService.isInCart(person.getId(), itemId) == null)
+            return false;
+        return true;
+    }
+
     @PostMapping("/add/{id}")
     public void add(@PathVariable("id") long itemId) throws PersonNotFoundException, ItemNotFoundException {
         Person person = authenticatedPersonService.getPerson();

@@ -59,4 +59,10 @@ public class CartService {
         person.getCart().remove(item);
         item.getPersonList().remove(person);
     }
+
+    public Item isInCart(long personId, long itemId) {
+        Optional<Person> optionalPerson = personRepository.findById(personId);
+        Person person = optionalPerson.get();
+        return person.getCart().stream().filter(i -> i.getId() == itemId).findAny().orElse(null);
+    }
 }

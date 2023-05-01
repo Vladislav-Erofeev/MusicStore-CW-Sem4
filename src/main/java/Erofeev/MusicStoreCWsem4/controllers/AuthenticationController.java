@@ -55,6 +55,7 @@ public class AuthenticationController {
         return new TokenResponse(token);
     }
 
+
     /**
      * POST - "/login"
      * Авторизация
