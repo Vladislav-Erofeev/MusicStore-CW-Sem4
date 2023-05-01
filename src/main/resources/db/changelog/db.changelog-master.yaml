@@ -9,3 +9,7 @@ databaseChangeLog:
       file: db/changelog/v2.0.0/v2.0.0-changelog.yml
   - include:
       file: db/changelog/v2.0.1/v2.0.1-changelog.yml
+  - include:
+      file: db/changelog/v2.0.2/v2.0.2-changelog.yml
+  - include:
+      file: db/changelog/v2.0.3/v2.0.3-changelog.yml

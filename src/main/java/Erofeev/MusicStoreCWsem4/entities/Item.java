@@ -36,6 +36,12 @@ public class Item {
             inverseJoinColumns = @JoinColumn(name = "person_id"))
     List<Person> personList;
 
+    @ManyToMany
+    @JoinTable(name = "ordered_item",
+    joinColumns = @JoinColumn(name = "item_id"),
+    inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private List<Order> orders;
+
     public void addImage(ItemImage itemImage) {
         if (images == null)
             images = new LinkedList<>();
@@ -46,5 +52,11 @@ public class Item {
         if (personList == null)
             personList = new LinkedList<>();
         personList.add(person);
+    }
+
+    public void addOrder(Order order) {
+        if (order == null)
+            orders = new LinkedList<>();
+        orders.add(order);
     }
 }

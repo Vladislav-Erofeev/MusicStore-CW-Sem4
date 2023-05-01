@@ -38,9 +38,18 @@ public class Person {
     @ManyToMany(mappedBy = "personList")
     private List<Item> cart;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Order> orders;
+
     public void addToCart(Item item) {
         if (cart == null)
             cart = new LinkedList<>();
         cart.add(item);
+    }
+
+    public void addOrder(Order order) {
+        if (orders == null)
+            orders = new LinkedList<>();
+        orders.add(order);
     }
 }
