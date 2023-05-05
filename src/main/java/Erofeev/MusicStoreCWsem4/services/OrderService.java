@@ -32,6 +32,10 @@ public class OrderService {
         return orderRepository.findByOwnerId(personId, Sort.by("id").descending());
     }
 
+    public List<Order> getAll(int page, int limit) {
+        return orderRepository.findAll(PageRequest.of(page, limit)).getContent();
+    }
+
     @Transactional
     public void createNewOrder(long personId, String address) throws PersonNotFoundException {
         Optional<Person> optionalPerson = personRepository.findById(personId);

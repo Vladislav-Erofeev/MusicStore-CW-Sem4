@@ -41,4 +41,8 @@ public class ItemService {
         return itemRepository.findByTitleContainingIgnoreCase(search, PageRequest.of(page, limit));
     }
 
+    public List<Item> findAll(int page, int limit) {
+        return itemRepository.findAll(PageRequest.of(page, limit)).getContent();
+    }
+
 }
