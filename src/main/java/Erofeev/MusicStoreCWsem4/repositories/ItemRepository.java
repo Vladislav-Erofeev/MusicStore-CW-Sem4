@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByCategory(ItemCategory category, PageRequest pageRequest);
+
+    List<Item> findByTitleContainingIgnoreCase(String title, PageRequest pageRequest);
 }
