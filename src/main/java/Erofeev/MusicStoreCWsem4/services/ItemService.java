@@ -2,13 +2,18 @@ package Erofeev.MusicStoreCWsem4.services;
 
 import Erofeev.MusicStoreCWsem4.entities.Item;
 import Erofeev.MusicStoreCWsem4.entities.ItemCategory;
+import Erofeev.MusicStoreCWsem4.entities.ItemImage;
 import Erofeev.MusicStoreCWsem4.errors.ItemNotFoundException;
 import Erofeev.MusicStoreCWsem4.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +22,9 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class ItemService {
     private final ItemRepository itemRepository;
+
+    @Value("${upload-directory}")
+    private String UPLOAD_DIRECTORY;
 
     @Transactional
     public long save(Item newItem) {
@@ -43,6 +51,23 @@ public class ItemService {
 
     public List<Item> findAll(int page, int limit) {
         return itemRepository.findAll(PageRequest.of(page, limit)).getContent();
+    }
+
+    @Transactional
+    public void deleteById(long id) {
+        Optional<Item> itemOptional = itemRepository.findById(id);
+        if (itemOptional.isEmpty())
+            return;
+        Item item = itemOptional.get();
+        item.getImages().forEach(image -> {
+            try {
+                Files.delete(Path.of(UPLOAD_DIRECTORY + image.getUrl()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        itemRepository.delete(item);
     }
 
 }

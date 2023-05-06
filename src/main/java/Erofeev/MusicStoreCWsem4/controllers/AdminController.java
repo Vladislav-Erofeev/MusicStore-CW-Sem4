@@ -11,6 +11,7 @@ import Erofeev.MusicStoreCWsem4.services.ItemService;
 import Erofeev.MusicStoreCWsem4.services.OrderService;
 import Erofeev.MusicStoreCWsem4.utils.ImageNameService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,9 @@ public class AdminController {
     private final ItemImageService itemImageService;
     private final ItemMapper itemMapper = ItemMapper.INSTANCE;
     private final OrderMapper orderMapper = OrderMapper.INSTANCE;
-    private final String UPLOAD_DIRECTORY = "C:/musicstore/images";
+
+    @Value("${upload-directory}")
+    private String UPLOAD_DIRECTORY;
 
     @GetMapping("/items")
     public List<ListItemDTO> getItems(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -63,6 +66,11 @@ public class AdminController {
     public ResponseEntity<Long> addNewItem(@RequestBody NewItemDTO newItemDTO) {
         long id = itemService.save(itemMapper.convertNewItemDTOToItem(newItemDTO));
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/item/{id}")
+    public void deleteItemById(@PathVariable("id") long id) {
+        itemService.deleteById(id);
     }
 
     @PostMapping("/load_image/{id}")
