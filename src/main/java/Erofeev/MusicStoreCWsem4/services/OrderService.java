@@ -28,12 +28,16 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final PersonRepository personRepository;
 
-    public List<Order> getAll(long personId) {
+    public List<Order> findAll(long personId) {
         return orderRepository.findByOwnerId(personId, Sort.by("id").descending());
     }
 
-    public List<Order> getAll(int page, int limit) {
+    public List<Order> findAll(int page, int limit) {
         return orderRepository.findAll(PageRequest.of(page, limit)).getContent();
+    }
+
+    public Order findById(long id) {
+        return orderRepository.findById(id).get();
     }
 
     @Transactional
@@ -61,9 +65,5 @@ public class OrderService {
 
         personRepository.save(person);
         orderRepository.save(order);
-    }
-
-    public Order getById(long id) {
-        return orderRepository.findById(id).get();
     }
 }

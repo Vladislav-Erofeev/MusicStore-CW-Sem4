@@ -42,7 +42,7 @@ public class ItemController {
 
 
     @GetMapping("/{id}")
-    public ItemDTO findById(@PathVariable("id") long id) throws ItemNotFoundException {
+    public ItemDTO getById(@PathVariable("id") long id) throws ItemNotFoundException {
         return itemMapper.convertItemToItemDTO(itemService.findById(id));
     }
 
