@@ -25,22 +25,6 @@ public class AuthenticationController {
     private final ImageNameService nameService;
     private final String UPLOAD_DIRECTORY = "C:/musicstore/images";
 
-    /**
-     * POST - "/register
-     * Регистрация пользователя
-     * @param request - данные пользователя в формате {
-     *     "name": имя,
-     *     "lastname": фамилия,
-     *     "phone": номер телефона,
-     *     "mail": почта/логин,
-     *     "password": пароль,
-     *     "city": город
-     * }
-     * @param file - фотография профиля (не обязательно)
-     * @return {token: jwt токен}
-     * @throws NotUniqueEmailException
-     * @throws IOException
-     */
     @PostMapping("/register")
     public TokenResponse register(@RequestPart("request") RegistrationRequest request,
                                   @RequestPart(value = "file", required = false) MultipartFile file) throws NotUniqueEmailException, IOException {
@@ -55,18 +39,8 @@ public class AuthenticationController {
         return new TokenResponse(token);
     }
 
-
-    /**
-     * POST - "/login"
-     * Авторизация
-     * @param authenticationRequest - логин и пароль в виде {
-     *     "login": логин,
-     *     "password": пароль
-     * }
-     * @return {"token": jwt токен}
-     */
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody AuthenticationRequest authenticationRequest) {
+    public TokenResponse login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         String token = authenticationService.authenticate(authenticationRequest);
         return new TokenResponse(token);
     }

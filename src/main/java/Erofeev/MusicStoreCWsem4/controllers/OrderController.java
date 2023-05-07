@@ -26,7 +26,7 @@ public class OrderController {
     @GetMapping("/all")
     public List<OrderListItemDTO> getOrders() {
         Person person = authenticatedPersonService.getPerson();
-        return orderService.getAll(person.getId()).stream()
+        return orderService.findAll(person.getId()).stream()
                 .map(orderMapper::convertOrderToOrderListItemDTO).collect(Collectors.toList());
     }
 
@@ -38,6 +38,6 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public OrderDTO getOrder(@PathVariable("id") long id) {
-        return orderMapper.convertOrderToOrderDTO(orderService.getById(id));
+        return orderMapper.convertOrderToOrderDTO(orderService.findById(id));
     }
 }

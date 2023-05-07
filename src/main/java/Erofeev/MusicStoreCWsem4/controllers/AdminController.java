@@ -47,13 +47,13 @@ public class AdminController {
     @GetMapping("/orders")
     public List<OrderListItemDTO> getOrders(@RequestParam(value = "page", defaultValue = "0") int page,
                                             @RequestParam(value = "limit", defaultValue = "20") int limit) {
-        return orderService.getAll(page, limit).stream()
+        return orderService.findAll(page, limit).stream()
                 .map(orderMapper::convertOrderToOrderListItemDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/order/{id}")
     public OrderDTO getOrder(@PathVariable("id") long id) {
-        return orderMapper.convertOrderToOrderDTO(orderService.getById(id));
+        return orderMapper.convertOrderToOrderDTO(orderService.findById(id));
     }
 
     @GetMapping("/item/{id}")

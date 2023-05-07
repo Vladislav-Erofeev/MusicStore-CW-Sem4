@@ -27,7 +27,7 @@ public class CartController {
     @GetMapping
     public List<ListItemDTO> getCart() throws PersonNotFoundException {
         Person person = authenticatedPersonService.getPerson();
-        return cartService.getCartByPerson(person.getId()).stream()
+        return cartService.findCartByPerson(person.getId()).stream()
                 .map(itemMapper::convertItemToListItemDTO).collect(Collectors.toList());
     }
 

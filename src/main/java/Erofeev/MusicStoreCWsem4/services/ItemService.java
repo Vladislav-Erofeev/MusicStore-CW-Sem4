@@ -58,6 +58,7 @@ public class ItemService {
         Optional<Item> itemOptional = itemRepository.findById(id);
         if (itemOptional.isEmpty())
             return;
+
         Item item = itemOptional.get();
         item.getImages().forEach(image -> {
             try {

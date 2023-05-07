@@ -29,14 +29,15 @@ public class ItemImageService {
 
     @Transactional
     public void save(long itemId, MultipartFile file) throws IOException, ItemNotFoundException {
-        String imageName = nameService.generate(file.getContentType());
-        Path filenameAndPath = Paths.get(UPLOAD_DIRECTORY + "/items", imageName);
-        Files.write(filenameAndPath, file.getBytes());
-
         Optional<Item> optionalItem = itemRepository.findById(itemId);
         if (optionalItem.isEmpty())
             throw new ItemNotFoundException("Item not found");
         Item item = optionalItem.get();
+
+        String imageName = nameService.generate(file.getContentType());
+        Path filenameAndPath = Paths.get(UPLOAD_DIRECTORY + "/items", imageName);
+        Files.write(filenameAndPath, file.getBytes());
+
         ItemImage itemImage = new ItemImage();
         itemImage.setItem(item);
         itemImage.setUrl("/items/" + imageName);

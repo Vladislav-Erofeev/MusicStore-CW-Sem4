@@ -22,12 +22,9 @@ public class AuthenticationService {
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
-    private final ImageNameService nameService;
 
     @Transactional
     public String register(RegistrationRequest registrationRequest, String url) throws NotUniqueEmailException {
-        String password = passwordEncoder.encode(registrationRequest.getPassword());
         if (personRepository.findByMail(registrationRequest.getMail()).isPresent())
             throw new NotUniqueEmailException("the user already exists");
         Person person = Person.builder()
@@ -38,26 +35,20 @@ public class AuthenticationService {
                 .lastname(registrationRequest.getLastname())
                 .url(url)
                 .city(registrationRequest.getCity())
-                .password(password)
                 .build();
+        person.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         personRepository.save(person);
         return jwtUtil.generateToken(person);
     }
 
-    public String authenticate(AuthenticationRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getLogin(),
-                        request.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    public String authenticate(AuthenticationRequest request) throws Exception {
         Optional<Person> optionalPerson = personRepository.findByMail(request.getLogin());
         if (optionalPerson.isEmpty())
             throw new UsernameNotFoundException("User not found");
 
         Person person = optionalPerson.get();
+        if(!passwordEncoder.matches(request.getPassword(), person.getPassword()))
+            throw new Exception("Wrong password");
         String token = jwtUtil.generateToken(person);
         return token;
     }

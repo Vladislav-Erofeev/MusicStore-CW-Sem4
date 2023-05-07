@@ -21,7 +21,7 @@ public class CartService {
     private final PersonRepository personRepository;
     private final ItemRepository itemRepository;
 
-    public List<Item> getCartByPerson(long personId) throws PersonNotFoundException {
+    public List<Item> findCartByPerson(long personId) throws PersonNotFoundException {
         Optional<Person> optionalPerson = personRepository.findById(personId);
         if (optionalPerson.isEmpty())
             throw new PersonNotFoundException("person not found");
