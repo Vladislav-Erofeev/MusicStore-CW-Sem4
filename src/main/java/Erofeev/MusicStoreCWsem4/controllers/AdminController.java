@@ -35,8 +35,7 @@ public class AdminController {
     private final ItemMapper itemMapper = ItemMapper.INSTANCE;
     private final OrderMapper orderMapper = OrderMapper.INSTANCE;
 
-    @Value("${upload-directory}")
-    private String UPLOAD_DIRECTORY;
+
 
     @GetMapping("/items")
     public List<ListItemDTO> getItems(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -76,15 +75,6 @@ public class AdminController {
     @PostMapping("/load_image/{id}")
     public void loadImage(@PathVariable("id") long itemId, @RequestBody MultipartFile file)
             throws IOException, ItemNotFoundException {
-        String imageName = nameService.generate(file.getContentType());
-        Path filenameAndPath = Paths.get(UPLOAD_DIRECTORY + "/items", imageName);
-        Files.write(filenameAndPath, file.getBytes());
-
-        Item item = itemService.findById(itemId);
-        ItemImage itemImage = new ItemImage();
-        itemImage.setItem(item);
-        itemImage.setUrl("/items/" + imageName);
-
-        itemImageService.save(itemImage);
+        itemImageService.save(itemId, file);
     }
 }
