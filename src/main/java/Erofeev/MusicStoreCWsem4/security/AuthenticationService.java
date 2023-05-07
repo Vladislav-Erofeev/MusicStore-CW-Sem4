@@ -32,11 +32,11 @@ public class AuthenticationService {
                 .phone(registrationRequest.getPhone())
                 .role("ROLE_USER")
                 .mail(registrationRequest.getMail())
+                .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .lastname(registrationRequest.getLastname())
                 .url(url)
                 .city(registrationRequest.getCity())
                 .build();
-        person.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         personRepository.save(person);
         return jwtUtil.generateToken(person);
     }

@@ -36,6 +36,10 @@ public class OrderService {
         return orderRepository.findAll(PageRequest.of(page, limit)).getContent();
     }
 
+    public Order findById(long id) {
+        return orderRepository.findById(id).get();
+    }
+
     @Transactional
     public void createNewOrder(long personId, String address) throws PersonNotFoundException {
         Optional<Person> optionalPerson = personRepository.findById(personId);
@@ -61,9 +65,5 @@ public class OrderService {
 
         personRepository.save(person);
         orderRepository.save(order);
-    }
-
-    public Order findById(long id) {
-        return orderRepository.findById(id).get();
     }
 }
